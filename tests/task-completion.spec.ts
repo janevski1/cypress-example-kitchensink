@@ -1,14 +1,14 @@
 import { test, expect } from './fixtures/todo.fixture';
 
 test.describe('Todo - Task Completion', () => {
-    test('should create a task as active by default', async ({ todoPage }) => {
+    test('Create a task as active by default', async ({ todoPage }) => {
         const taskName = 'Task A';
         await todoPage.createTask(taskName);
 
         await expect(todoPage.getTaskCheckbox(taskName)).not.toBeChecked();
     });
 
-    test('should complete a task', async ({ todoPage }) => {
+    test('Complete a task', async ({ todoPage }) => {
         const taskName = 'Task A';
         await todoPage.createTask(taskName);
         await todoPage.completeTask(taskName);
@@ -16,7 +16,7 @@ test.describe('Todo - Task Completion', () => {
         await expect(todoPage.getTaskCheckbox(taskName)).toBeChecked();
     });
 
-    test('should uncomplete a task', async ({ todoPage }) => {
+    test('Uncomplete a task', async ({ todoPage }) => {
         const taskName = 'Task A';
         await todoPage.createTask(taskName);
         await todoPage.completeTask(taskName);
@@ -28,7 +28,7 @@ test.describe('Todo - Task Completion', () => {
         await expect(todoPage.getTaskCheckbox(taskName)).not.toBeChecked();
     });
 
-    test('should complete and uncomplete the same task multiple times', async ({
+    test('Complete and uncomplete the same task multiple times', async ({
         todoPage,
     }) => {
         const taskName = 'Task A';
@@ -44,7 +44,7 @@ test.describe('Todo - Task Completion', () => {
         await expect(todoPage.getTaskCheckbox(taskName)).toBeChecked();
     });
 
-    test('should complete only the selected task', async ({ todoPage }) => {
+    test('Complete only the selected task', async ({ todoPage }) => {
         const taskA = 'Task A';
         const taskB = 'Task B';
         const taskC = 'Task C';

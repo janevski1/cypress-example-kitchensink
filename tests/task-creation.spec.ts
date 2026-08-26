@@ -10,14 +10,14 @@ test.describe('Todo - Task Creation', () => {
     ];
 
     for (const taskName of validTaskNames) {
-        test(`should create task: ${taskName}`, async ({ todoPage }) => {
+        test(`Create task: ${taskName}`, async ({ todoPage }) => {
             await todoPage.createTask(taskName);
 
             await expect(todoPage.getTaskLabel(taskName)).toBeVisible();
         });
     }
 
-    test('should create multiple tasks', async ({ todoPage }) => {
+    test('Create multiple tasks', async ({ todoPage }) => {
         const tasks = ['Task A', 'Task B', 'Task C'];
 
         for (const task of tasks) {
@@ -28,22 +28,22 @@ test.describe('Todo - Task Creation', () => {
             await expect(todoPage.getTaskLabel(task)).toBeVisible();
         }
 
-        await expect(todoPage.getAllTasks()).toHaveCount(5);
+        await expect(todoPage.getAllTasks()).toHaveCount(3);
     });
 
-    test('should not create an empty task', async ({ todoPage }) => {
+    test('Should not create an empty task', async ({ todoPage }) => {
         await todoPage.createTask('');
 
-        await expect(todoPage.getAllTasks()).toHaveCount(2);
+        await expect(todoPage.getAllTasks()).toHaveCount(0);
     });
 
-    test('should not create a whitespace-only task', async ({ todoPage }) => {
+    test('Should not create a whitespace-only task', async ({ todoPage }) => {
         await todoPage.createTask('   ');
 
-        await expect(todoPage.getAllTasks()).toHaveCount(2);
+        await expect(todoPage.getAllTasks()).toHaveCount(0);
     });
 
-    test('should handle duplicate tasks according to application behavior', async ({
+    test('Handle duplicate tasks according to application behavior', async ({
         todoPage,
     }) => {
         const taskName = 'Task A';

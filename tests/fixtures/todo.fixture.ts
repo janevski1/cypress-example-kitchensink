@@ -7,22 +7,33 @@ type TodoFixtures = {
 
 export const test = base.extend<TodoFixtures>({
   todoPage: async ({ page }, use) => {
-    // Open application
-    await page.goto('/todo');
-
-    // Clear saved state before every test
-    await page.evaluate(() => {
-      localStorage.clear();
-      sessionStorage.clear();
-    });
-
-    // Reload with clean state
-    await page.reload();
-
-    // Create Page Object
     const todoPage = new TodoPage(page);
 
-    // Make fixture available to the test
+    // Open application
+    await todoPage.goto();
+
+    // Delete default task only if it exists
+    if (await todoPage.getTaskItem('Pay electric bill').count() > 0) {
+      await todoPage.deleteTask('Pay electric bill');
+    }
+
+    // Delete default task only if it exists
+    if (await todoPage.getTaskItem('Walk the dog').count() > 0) {
+      await todoPage.deleteTask('Walk the dog');
+    }
+
+    // Verify that both default tasks are removed
+    await expect(
+      todoPage.getTaskItem('Pay electric bill'),
+    ).toHaveCount(0);
+
+    await expect(
+      todoPage.getTaskItem('Walk the dog'),
+    ).toHaveCount(0);
+
+    // Verify the test starts with an empty task list
+    await expect(todoPage.getAllTasks()).toHaveCount(0);
+
     await use(todoPage);
   },
 });
